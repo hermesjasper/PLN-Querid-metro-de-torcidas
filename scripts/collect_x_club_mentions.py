@@ -10,7 +10,6 @@ import argparse
 import hashlib
 import json
 import os
-import sys
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
@@ -20,12 +19,6 @@ import requests
 from dotenv import load_dotenv
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-SRC_DIR = PROJECT_ROOT / "src"
-if str(SRC_DIR) not in sys.path:
-    sys.path.insert(0, str(SRC_DIR))
-
-from queridometro.collectors.twitter_public_collector import anonymize_post_text
-
 
 RECENT_SEARCH_URL = "https://api.x.com/2/tweets/search/recent"
 DEFAULT_OUTPUT = PROJECT_ROOT / "data" / "raw" / "club_mentions_x_api.csv"
@@ -45,6 +38,11 @@ CLUB_HANDLES = {
     "Atletico Mineiro": "@Atletico",
     "Cruzeiro": "@Cruzeiro",
 }
+
+
+def anonymize_post_text(text: str) -> str:
+    """Keep textual content compact without storing extra profile metadata."""
+    return " ".join(text.replace("\n", " ").split())
 
 
 def parse_args() -> argparse.Namespace:

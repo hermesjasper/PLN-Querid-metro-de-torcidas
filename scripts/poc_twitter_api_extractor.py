@@ -12,7 +12,6 @@ text, search_term, source, collected_at.
 from __future__ import annotations
 
 import argparse
-import sys
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
@@ -21,11 +20,11 @@ import pandas as pd
 from dotenv import load_dotenv
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-SRC_DIR = PROJECT_ROOT / "src"
-if str(SRC_DIR) not in sys.path:
-    sys.path.insert(0, str(SRC_DIR))
 
-from queridometro.collectors.twitter_public_collector import anonymize_post_text
+
+def anonymize_post_text(text: str) -> str:
+    """Keep textual content compact without storing extra profile metadata."""
+    return " ".join(text.replace("\n", " ").split())
 
 
 def parse_args() -> argparse.Namespace:
@@ -199,4 +198,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
