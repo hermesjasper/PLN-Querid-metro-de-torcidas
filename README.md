@@ -82,6 +82,31 @@ python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 ```
 
+## Custos da API do X
+
+A API v2 do X usa cobranca por uso. Segundo a documentacao oficial, o consumo e
+acompanhado por app, os custos variam por endpoint/operacao e os valores atuais
+devem ser consultados no Developer Console antes de novas coletas:
+
+```text
+https://docs.x.com/x-api/fundamentals/post-cap
+https://console.x.com
+```
+
+Para esta PoC, a coleta completa faz 10 buscas recentes, uma por clube, pedindo
+ate 100 tweets por busca. Portanto, uma execucao completa tende a consumir cerca
+de 1.000 leituras de posts, menos quando a API retorna menos resultados. Na
+coleta salva neste repositorio foram retornados 973 tweets.
+
+Pontos importantes para controlar custo:
+
+- apenas respostas bem-sucedidas com dados retornados entram na cobranca;
+- posts repetidos no mesmo dia podem passar por deduplicacao diaria na cobranca;
+- a documentacao informa limite mensal de 2 milhoes de leituras de posts para
+  planos pay-per-usage;
+- configure limites de gasto e alertas no Developer Console;
+- evite rodar a coleta repetidas vezes sem necessidade.
+
 ## Como Coletar Novamente
 
 Execute a coleta consolidada:
