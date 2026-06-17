@@ -101,6 +101,49 @@ python scripts/collect_public_posts.py
 
 O arquivo anonimo sera salvo em `data/raw/twitter_public_comments.csv`. Ajuste `TWITTER_API_ITEMS_PATH` e `TWITTER_API_TEXT_FIELD` conforme o formato JSON do provedor escolhido.
 
+### POC Oficial com API do X
+
+Depois de configurar `X_BEARER_TOKEN` no `.env`, colete mencoes recentes aos
+perfis oficiais dos 10 clubes definidos na POC:
+
+```bash
+python scripts/collect_x_club_mentions.py --tweets-per-club 100 --show-sample
+```
+
+O CSV consolidado sera salvo em `data/raw/club_mentions_x_api.csv`. A busca usa
+apenas os arrobas oficiais:
+
+```text
+@SaoPauloFC @Corinthians @Palmeiras @Flamengo @VascodaGama
+@FluminenseFC @Botafogo @SantosFC @Atletico @Cruzeiro
+```
+
+Principais colunas geradas:
+
+- `club_name`, `club_handle`: clube alvo da busca.
+- `search_query`: consulta enviada para a API, incluindo idioma e filtro de retweets.
+- `tweet_id_hash`, `conversation_id_hash`, `author_id_hash`: identificadores anonimizados para deduplicacao e analise de rede.
+- `created_at`, `lang`, `text`: data, idioma e texto do tweet para PLN.
+- `reference_type`, `referenced_tweet_id_hash`: tipo de relacao quando o tweet referencia outro tweet, como reply, quote ou retweet.
+- `mentioned_club_handles`: clubes da POC mencionados no texto.
+- `mentioned_user_hashes`: outros usuarios mencionados, anonimizados.
+- `retweet_count`, `reply_count`, `like_count`, `quote_count`, `bookmark_count`, `impression_count`: metricas publicas para engajamento.
+- `source`, `collected_at`: origem da coleta e horario em que a coleta foi feita.
+
+### POC do Extrator com Scraping
+
+Tambem existe uma POC isolada usando `ntscraper`, biblioteca nao oficial baseada em instancias do Nitter. Ela nao usa API terceira, nao faz login e nao tenta burlar captcha, paywall, bloqueios ou limites. Use apenas para experimentacao academica pequena, pois instancias do Nitter podem ficar indisponiveis e o metodo pode quebrar por mudancas no X/Twitter.
+
+```bash
+python scripts/poc_twitter_api_extractor.py --term Flamengo --limit 10 --show-sample
+```
+
+O script salva apenas textos anonimizados em `data/raw/poc_ntscraper_comments.csv`.
+
+```bash
+python scripts/poc_twitter_api_extractor.py --term futebol --mode term --limit 20 --language pt
+```
+
 ## Coleta Simulada Opcional
 
 Gere comentarios ficticios em `data/raw/mock_comments.csv`:
