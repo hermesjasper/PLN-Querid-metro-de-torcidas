@@ -50,6 +50,12 @@ def parse_args() -> argparse.Namespace:
         help="Quantidade de posts oficiais a processar neste teste.",
     )
     parser.add_argument(
+        "--skip-posts",
+        type=int,
+        default=0,
+        help="Quantidade de posts oficiais iniciais a pular.",
+    )
+    parser.add_argument(
         "--replies-limit",
         type=int,
         default=10,
@@ -64,10 +70,15 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def read_official_posts(path: Path, max_posts: int) -> list[dict[str, str]]:
+def read_official_posts(
+    path: Path,
+    max_posts: int,
+    skip_posts: int,
+) -> list[dict[str, str]]:
     with path.open("r", newline="", encoding="utf-8-sig") as file:
         rows = list(csv.DictReader(file))
-    return [row for row in rows if row.get("post_id")][:max_posts]
+    selected_rows = [row for row in rows if row.get("post_id")]
+    return selected_rows[skip_posts : skip_posts + max_posts]
 
 
 def write_reactions(rows: list[dict[str, object]], output: Path) -> None:
@@ -93,6 +104,36 @@ def write_reactions(rows: list[dict[str, object]], output: Path) -> None:
         writer = csv.DictWriter(file, fieldnames=columns)
         writer.writeheader()
         writer.writerows(rows)
+
+
+def read_existing_reactions(path: Path) -> list[dict[str, object]]:
+    if not path.exists():
+        return []
+    with path.open("r", newline="", encoding="utf-8-sig") as file:
+        return list(csv.DictReader(file))
+
+
+def reaction_key(row: dict[str, object]) -> tuple[str, str, str]:
+    return (
+        str(row.get("reaction_id", "")),
+        str(row.get("parent_post_id", "")),
+        str(row.get("reaction_type", "")),
+    )
+
+
+def merge_reactions(
+    existing_rows: list[dict[str, object]],
+    new_rows: list[dict[str, object]],
+) -> list[dict[str, object]]:
+    merged: list[dict[str, object]] = []
+    seen: set[tuple[str, str, str]] = set()
+    for row in [*existing_rows, *new_rows]:
+        key = reaction_key(row)
+        if key in seen:
+            continue
+        seen.add(key)
+        merged.append(row)
+    return merged
 
 
 def log_search(
@@ -121,8 +162,13 @@ def log_search(
 
 def main() -> None:
     args = parse_args()
-    official_posts = read_official_posts(args.official_posts, args.max_posts)
-    all_reactions: list[dict[str, object]] = []
+    official_posts = read_official_posts(
+        args.official_posts,
+        args.max_posts,
+        args.skip_posts,
+    )
+    existing_reactions = read_existing_reactions(args.output)
+    new_reactions: list[dict[str, object]] = []
 
     replies_limit = clamp_recent_search_limit(args.replies_limit)
     quotes_limit = clamp_recent_search_limit(args.quotes_limit)
@@ -131,7 +177,7 @@ def main() -> None:
         parent_post_id = str(official_post["post_id"])
 
         replies = fetch_replies(parent_post_id, replies_limit)
-        all_reactions.extend(replies)
+        new_reactions.extend(replies)
         log_search(
             log_path=args.log,
             collection_id=f"sao-paulo-replies-{parent_post_id}",
@@ -145,7 +191,7 @@ def main() -> None:
         )
 
         quotes = fetch_quote_tweets(parent_post_id, quotes_limit)
-        all_reactions.extend(quotes)
+        new_reactions.extend(quotes)
         log_search(
             log_path=args.log,
             collection_id=f"sao-paulo-quotes-{parent_post_id}",
@@ -158,9 +204,11 @@ def main() -> None:
             ),
         )
 
+    all_reactions = merge_reactions(existing_reactions, new_reactions)
     write_reactions(all_reactions, args.output)
     print(f"Posts oficiais processados: {len(official_posts)}")
-    print(f"Reacoes coletadas: {len(all_reactions)}")
+    print(f"Reacoes novas retornadas: {len(new_reactions)}")
+    print(f"Reacoes totais no CSV: {len(all_reactions)}")
     print(f"CSV salvo em: {args.output}")
     print(f"Log atualizado em: {args.log}")
 

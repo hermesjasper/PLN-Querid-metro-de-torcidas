@@ -55,3 +55,4 @@ data/annotated/*
 !data/interim/.gitkeep
 !data/processed/.gitkeep
 !data/annotated/.gitkeep
+!data/annotated/manual_annotation_sample_sao_paulo.csv

@@ -87,6 +87,10 @@ Custo observado no teste contextual completo: **US$ 0.13**. Esse valor cobriu 1
 busca de posts oficiais, 2 buscas de replies e 2 buscas de quote tweets,
 resultando em 10 posts oficiais e 26 reacoes salvas.
 
+A segunda rodada, coletando replies e quotes dos 8 posts oficiais restantes,
+custou **US$ 0.17** e adicionou 34 reacoes. Custo total observado da base
+contextual de teste: **US$ 0.30**, com 10 posts oficiais e 60 reacoes.
+
 Antes da coleta completa, deve ser feito um teste pequeno para validar endpoint,
 retorno, custo e formato dos dados. O teste inicial autorizado usa:
 
@@ -135,6 +139,7 @@ data/
     contextual_collection/
   processed/
   annotated/
+    manual_annotation_sample_sao_paulo.csv
   metadata/
     collection_log.csv
 docs/
@@ -148,6 +153,7 @@ scripts/
   prepare_contextual_structure.py
   annotate_reactions.py
   validate_annotations_sample.py
+  prepare_manual_annotation_sample.py
   collect_x_club_mentions.py
   poc_twitter_api_extractor.py
   test_collect_sao_paulo_official_posts.py
@@ -186,13 +192,45 @@ O arquivo `.env` nao deve ser versionado.
 - notebooks finais;
 - dashboards.
 
+## Anotacao Manual
+
+A primeira amostra de anotacao manual foi gerada em:
+
+```text
+data/annotated/manual_annotation_sample_sao_paulo.csv
+```
+
+Ela contem 30 reacoes, balanceadas entre replies e quote tweets:
+
+```text
+REPLY: 15
+QUOTE: 15
+```
+
+As colunas de rotulagem devem ser preenchidas manualmente com base na taxonomia:
+
+```text
+relevancia
+tema
+emocao
+polaridade
+intencao
+validado_manual
+rotulo_corrigido
+observacoes
+```
+
+Para validar os rotulos preenchidos:
+
+```powershell
+python scripts/validate_annotations_sample.py
+```
+
 ## Proximos Passos
 
-1. Conferir o CSV e o log do teste pequeno com Sao Paulo.
-2. Estimar custo real da coleta contextual completa.
-3. Confirmar endpoint para replies e quote tweets.
-4. Executar coleta piloto reduzida de reacoes.
-5. Revisar amostra e ajustar taxonomia.
-6. Implementar anotacao semantica com modelo pronto.
-7. Validar manualmente uma amostra.
-8. Preparar comparacao futura com modelos classicos.
+1. Preencher manualmente a amostra `manual_annotation_sample_sao_paulo.csv`.
+2. Rodar `python scripts/validate_annotations_sample.py`.
+3. Revisar se a taxonomia precisa de ajustes.
+4. Implementar anotacao semantica com modelo pronto.
+5. Comparar rotulos do modelo com a amostra validada.
+6. Preparar comparacao futura com modelos classicos.

@@ -43,6 +43,38 @@ Ela incluiu:
 Esse custo deve ser usado como referencia empirica inicial antes de ampliar a
 coleta.
 
+A segunda rodada, com replies e quotes dos 8 posts oficiais restantes, custou
+US$ 0.17 e retornou 34 novas reacoes. O custo total observado da base contextual
+de teste ficou em US$ 0.30, com 10 posts oficiais e 60 reacoes.
+
+## Plano de Anotacao Manual
+
+Antes de chamar um LLM, foi gerada uma amostra manual com 30 reacoes em:
+
+```text
+data/annotated/manual_annotation_sample_sao_paulo.csv
+```
+
+A amostra foi balanceada com 15 replies e 15 quote tweets. O objetivo e validar
+a taxonomia com dados reais antes de gastar chamadas em anotacao automatica.
+
+Campos a preencher:
+
+- `relevancia`;
+- `tema`;
+- `emocao`;
+- `polaridade`;
+- `intencao`;
+- `validado_manual`;
+- `rotulo_corrigido`, se necessario;
+- `observacoes`, se necessario.
+
+Depois do preenchimento, validar com:
+
+```powershell
+python scripts/validate_annotations_sample.py
+```
+
 ## Plano para Respostas e Quotes
 
 As buscas de reacoes devem partir de `official_posts.csv` ou do arquivo de teste
