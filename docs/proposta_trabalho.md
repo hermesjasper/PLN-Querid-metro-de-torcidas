@@ -52,8 +52,8 @@ patrocinio, marketing, nota oficial, institucional e socio-torcedor.
 ## Mudanca de Escopo
 
 O escopo anterior era baseado em buscas por arrobas oficiais de 10 clubes. O
-novo escopo passa a focar em um clube piloto, ainda a definir, com coleta futura
-de publicacoes oficiais e reacoes diretamente associadas.
+novo escopo passa a focar em um clube piloto, o Sao Paulo (`@SaoPauloFC`), com
+coleta futura de publicacoes oficiais e reacoes diretamente associadas.
 
 A base inicial de mencoes permanece preservada como historico e referencia, mas
 nao sera o centro da nova pipeline contextual.
@@ -62,7 +62,7 @@ nao sera o centro da nova pipeline contextual.
 
 A PoC sera composta por:
 
-- escolha de um clube piloto;
+- escolha do Sao Paulo como clube piloto;
 - selecao de 10 a 15 publicacoes oficiais recentes;
 - coleta futura de ate 30 replies por publicacao;
 - coleta futura de ate 10 quote tweets por publicacao;
@@ -74,9 +74,9 @@ A PoC sera composta por:
 
 ## Fonte de Dados
 
-A fonte prevista e a API oficial do X/Twitter. Nesta etapa, nenhuma nova coleta
-sera executada. A estrutura sera preparada para coleta posterior com teto de
-custo e registro em log.
+A fonte prevista e a API oficial do X/Twitter. O primeiro teste autorizado usa
+`/2/tweets/search/recent` para coletar 2 posts oficiais recentes do Sao Paulo.
+Coletas maiores continuarao dependendo de teto de custo e registro em log.
 
 ## Restricao de Custo da API
 

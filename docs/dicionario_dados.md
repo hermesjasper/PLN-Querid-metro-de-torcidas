@@ -9,7 +9,9 @@ Publicacoes oficiais do clube piloto.
 
 | Campo | Tipo sugerido | Descricao |
 | --- | --- | --- |
-| `post_id` | string | Identificador anonimo ou controlado da publicacao oficial. |
+| `post_id` | string | ID operacional da publicacao oficial no X, necessario para buscar replies e quotes. |
+| `post_id_hash` | string | Hash estavel do ID da publicacao oficial. |
+| `conversation_id` | string | ID da conversa associada ao post oficial. |
 | `club` | string | Nome do clube piloto. |
 | `club_username` | string | Arroba oficial do clube. |
 | `official_text` | string | Texto da publicacao oficial. |
@@ -29,10 +31,12 @@ Replies e quote tweets associados a publicacoes oficiais.
 
 | Campo | Tipo sugerido | Descricao |
 | --- | --- | --- |
-| `reaction_id` | string | Identificador anonimo ou controlado da reacao. |
+| `reaction_id` | string | Identificador anonimizado da reacao. |
+| `source_reaction_id_hash` | string | Hash estavel do ID original da reacao. |
 | `parent_post_id` | string | Identificador da publicacao oficial relacionada. |
 | `club` | string | Clube piloto associado. |
 | `reaction_type` | string | Tipo de reacao: `REPLY` ou `QUOTE`. |
+| `author_id_hash` | string | Hash estavel do autor da reacao. |
 | `text` | string | Texto bruto da reacao. |
 | `created_at` | datetime | Data e hora da reacao. |
 | `lang` | string | Idioma detectado. |
@@ -66,7 +70,10 @@ Base anotada para analise semantica e treinamento futuro.
 
 ## Observacoes
 
-- IDs brutos de usuarios e posts nao devem ser publicados sem avaliacao etica.
+- IDs brutos de usuarios nao devem ser publicados sem avaliacao etica.
+- O `post_id` de publicacoes oficiais do clube e mantido como campo operacional
+  para permitir a busca de replies e quote tweets.
+- IDs de autores e de reacoes de torcedores devem ser anonimizados por hash.
 - Retweets puros devem ser mantidos como metrica, nao como texto de PLN.
 - Campos de texto devem preservar conteudo suficiente para interpretacao
   contextual.

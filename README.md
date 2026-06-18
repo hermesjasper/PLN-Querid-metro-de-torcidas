@@ -41,7 +41,7 @@ exploracao geral, mas nao e o centro da nova pipeline contextual.
 
 ## Nova Pipeline Contextual
 
-A nova coleta futura sera focada em um clube piloto, ainda `A DEFINIR`, e deve
+A nova coleta sera focada no clube piloto Sao Paulo (`@SaoPauloFC`) e deve
 seguir o plano documentado em:
 
 ```text
@@ -75,7 +75,7 @@ data/metadata/collection_log.csv
 
 Plano inicial:
 
-- clube piloto: `A DEFINIR`;
+- clube piloto: Sao Paulo (`@SaoPauloFC`);
 - publicacoes oficiais: 10 a 15;
 - replies por publicacao: ate 30;
 - quotes por publicacao: ate 10;
@@ -83,8 +83,28 @@ Plano inicial:
 - teto aproximado de novos registros: 500 a 700;
 - orcamento maximo adicional: R$ 25.
 
+Custo observado no teste contextual completo: **US$ 0.13**. Esse valor cobriu 1
+busca de posts oficiais, 2 buscas de replies e 2 buscas de quote tweets,
+resultando em 10 posts oficiais e 26 reacoes salvas.
+
 Antes da coleta completa, deve ser feito um teste pequeno para validar endpoint,
-retorno, custo e formato dos dados.
+retorno, custo e formato dos dados. O teste inicial autorizado usa:
+
+```text
+GET https://api.x.com/2/tweets/search/recent
+query=from:SaoPauloFC -is:retweet
+```
+
+Por regra do endpoint, `max_results` precisa ficar entre 10 e 100. Como a API
+cobra pelos retornos da chamada, a pipeline agora salva todos os posts
+retornados e nao descarta excedentes.
+
+Para buscar reacoes dos posts oficiais salvos, a pipeline usa:
+
+```text
+in_reply_to_tweet_id:<post_id> -from:SaoPauloFC -is:retweet
+quotes_of_tweet_id:<post_id> -is:retweet
+```
 
 ## Taxonomia
 
@@ -130,6 +150,8 @@ scripts/
   validate_annotations_sample.py
   collect_x_club_mentions.py
   poc_twitter_api_extractor.py
+  test_collect_sao_paulo_official_posts.py
+  collect_sao_paulo_contextual_reactions.py
 src/
   queridometro/
     collectors/contextual_x_collector.py
@@ -166,10 +188,10 @@ O arquivo `.env` nao deve ser versionado.
 
 ## Proximos Passos
 
-1. Definir o clube piloto.
-2. Confirmar endpoints e limites da API do X/Twitter.
-3. Estimar custo real de um teste pequeno.
-4. Executar coleta piloto reduzida.
+1. Conferir o CSV e o log do teste pequeno com Sao Paulo.
+2. Estimar custo real da coleta contextual completa.
+3. Confirmar endpoint para replies e quote tweets.
+4. Executar coleta piloto reduzida de reacoes.
 5. Revisar amostra e ajustar taxonomia.
 6. Implementar anotacao semantica com modelo pronto.
 7. Validar manualmente uma amostra.

@@ -23,22 +23,26 @@ como metrica de engajamento.
 1. Escolha do clube piloto
 
    Definir um clube inicial para reduzir custo, escopo e complexidade da coleta.
-   Valor atual: `A DEFINIR`.
+   Valor atual: Sao Paulo (`@SaoPauloFC`).
 
 2. Coleta de tweets oficiais
 
    Buscar publicacoes feitas pelo perfil oficial do clube piloto. A sugestao
-   inicial e coletar 10 a 15 publicacoes oficiais.
+   inicial e coletar 10 a 15 publicacoes oficiais. O primeiro teste controlado
+   usa `/2/tweets/search/recent` com `from:SaoPauloFC -is:retweet`. Como a API
+   cobra pelos retornos da chamada, todos os posts retornados devem ser salvos.
 
 3. Coleta de replies
 
    Para cada publicacao oficial, buscar replies associadas. A sugestao inicial e
-   limitar a ate 30 replies por publicacao.
+   limitar a ate 30 replies por publicacao. O teste usa o operador
+   `in_reply_to_tweet_id:<post_id>`.
 
 4. Coleta de quote tweets
 
    Para cada publicacao oficial, buscar quote tweets associados. A sugestao
-   inicial e limitar a ate 10 quotes por publicacao.
+   inicial e limitar a ate 10 quotes por publicacao. O teste usa o operador
+   `quotes_of_tweet_id:<post_id>`.
 
 5. Armazenamento bruto
 
@@ -88,7 +92,7 @@ como metrica de engajamento.
 
 ## Restricoes Nesta Etapa
 
-- nao executar coleta real da API do X/Twitter;
+- executar apenas o teste pequeno autorizado de 2 posts oficiais do Sao Paulo;
 - nao fazer chamadas reais a GPT ou outro LLM;
 - nao treinar modelos;
 - nao criar dashboards;
