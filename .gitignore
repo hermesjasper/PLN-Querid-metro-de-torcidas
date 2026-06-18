@@ -44,6 +44,12 @@ Thumbs.db
 data/raw/*
 data/interim/*
 data/processed/*
+data/annotated/*
 !data/raw/.gitkeep
+!data/raw/initial_mentions/
+!data/raw/initial_mentions/.gitkeep
+!data/raw/contextual_collection/
+!data/raw/contextual_collection/.gitkeep
 !data/interim/.gitkeep
 !data/processed/.gitkeep
+!data/annotated/.gitkeep

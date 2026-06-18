@@ -1,0 +1,176 @@
+post_types:
+  PARTIDA:
+    description: "Publicacao relacionada a jogo, pre-jogo ou chamada da partida."
+    example: "Hoje tem jogo no Morumbi."
+  ESCALACAO:
+    description: "Divulgacao da equipe titular ou relacionados."
+    example: "Escalados para a partida."
+  RESULTADO:
+    description: "Placar final ou parcial."
+    example: "Fim de jogo: vitoria por 2 a 0."
+  CONTRATACAO:
+    description: "Anuncio de jogador, tecnico ou profissional."
+    example: "Novo reforco chegou."
+  MERCADO_DA_BOLA:
+    description: "Rumores, negociacoes ou janela de transferencias."
+    example: "Atualizacao sobre negociacoes."
+  PATROCINIO:
+    description: "Conteudo ligado a patrocinadores."
+    example: "Novo parceiro oficial do clube."
+  MARKETING:
+    description: "Campanhas promocionais ou ativacoes."
+    example: "Participe da campanha."
+  NOTA_OFICIAL:
+    description: "Comunicados formais do clube."
+    example: "Nota oficial sobre os acontecimentos."
+  INSTITUCIONAL:
+    description: "Conteudo sobre historia, valores ou gestao institucional."
+    example: "Aniversario do clube."
+  SOCIO_TORCEDOR:
+    description: "Conteudo sobre programa de socios."
+    example: "Novidade para socios-torcedores."
+  PRODUTO_CAMISA:
+    description: "Lancamento ou venda de camisa e produtos."
+    example: "Nova camisa disponivel."
+  BASTIDORES:
+    description: "Conteudo de treino, viagem, vestiario ou rotina interna."
+    example: "Bastidores da preparacao."
+  BASE:
+    description: "Conteudo sobre categorias de base."
+    example: "Sub-20 entra em campo."
+  OUTRO:
+    description: "Conteudo que nao se encaixa nas categorias anteriores."
+    example: "Mensagem geral aos torcedores."
+
+reaction_relevance:
+  RELEVANTE:
+    description: "Traz opiniao, avaliacao, emocao ou informacao sobre o contexto."
+    example: "A escalacao ficou ofensiva, gostei."
+  POUCO_INFORMATIVO:
+    description: "Tem baixo conteudo analitico, mas ainda se relaciona ao post."
+    example: "Vamos!"
+  NAO_RELEVANTE:
+    description: "Spam, texto sem relacao ou conteudo impossivel de interpretar."
+    example: "Clique aqui para ganhar premio."
+
+reaction_topics:
+  ELENCO:
+    description: "Comentario sobre jogadores do grupo."
+    example: "O elenco precisa de mais opcoes."
+  TECNICO:
+    description: "Comentario sobre treinador ou comissao."
+    example: "O tecnico mexeu mal."
+  DIRETORIA:
+    description: "Comentario sobre dirigentes e gestao."
+    example: "A diretoria precisa contratar."
+  ARBITRAGEM:
+    description: "Comentario sobre juiz, VAR ou decisoes de arbitragem."
+    example: "O VAR errou de novo."
+  CONTRATACAO:
+    description: "Pedido ou avaliacao de reforcos."
+    example: "Esse atacante seria uma boa."
+  DESEMPENHO_EM_CAMPO:
+    description: "Analise de jogo, tatica ou performance."
+    example: "O time marcou muito mal."
+  TORCIDA:
+    description: "Comentario sobre a propria torcida."
+    example: "A torcida carregou o time."
+  RIVALIDADE:
+    description: "Provocacao ou comparacao com rivais."
+    example: "O rival nao aguenta."
+  PATROCINIO:
+    description: "Reacao a patrocinadores."
+    example: "Esse patrocinio ficou bom na camisa."
+  MARKETING:
+    description: "Reacao a campanhas e comunicacao promocional."
+    example: "Campanha criativa."
+  INGRESSOS:
+    description: "Comentario sobre venda, preco ou acesso a ingressos."
+    example: "Ingresso muito caro."
+  SOCIO_TORCEDOR:
+    description: "Comentario sobre planos e beneficios."
+    example: "O plano precisa melhorar."
+  COMUNICACAO_DO_CLUBE:
+    description: "Avaliacao da forma como o clube comunicou algo."
+    example: "A nota foi confusa."
+  OUTRO:
+    description: "Tema nao coberto pelas categorias anteriores."
+    example: "Nao sei o que pensar."
+
+emotions:
+  ALEGRIA:
+    description: "Satisfacao ou celebracao."
+    example: "Que felicidade essa vitoria!"
+  ORGULHO:
+    description: "Identificacao positiva com o clube."
+    example: "Orgulho de ser torcedor."
+  RAIVA:
+    description: "Irritacao intensa."
+    example: "Isso e inadmissivel."
+  FRUSTRACAO:
+    description: "Decepcao ou cansaco emocional."
+    example: "De novo a mesma coisa."
+  IRONIA:
+    description: "Humor sarcastico ou indireto."
+    example: "Parabens pelo planejamento, genial."
+  ESPERANCA:
+    description: "Expectativa positiva."
+    example: "Agora vai melhorar."
+  ANSIEDADE:
+    description: "Preocupacao ou tensao antecipada."
+    example: "Estou nervoso para esse jogo."
+  DESCONFIANCA:
+    description: "Duvida sobre decisao, pessoa ou informacao."
+    example: "Nao boto fe nessa contratacao."
+  APOIO:
+    description: "Incentivo direto ao clube ou equipe."
+    example: "Estamos juntos sempre."
+  NEUTRO:
+    description: "Sem emocao evidente."
+    example: "Jogo sera as 19h."
+
+polarity:
+  POSITIVO:
+    description: "Avaliacao favoravel."
+    example: "Boa decisao."
+  NEGATIVO:
+    description: "Avaliacao desfavoravel."
+    example: "Foi uma pessima escolha."
+  NEUTRO:
+    description: "Sem avaliacao clara."
+    example: "Saiu a escalacao."
+  MISTO:
+    description: "Combina avaliacao positiva e negativa."
+    example: "Gostei do ataque, mas a defesa preocupa."
+
+communicative_intent:
+  ELOGIO:
+    description: "Reconhece algo positivamente."
+    example: "Excelente contratacao."
+  CRITICA:
+    description: "Aponta problema ou desaprovacao."
+    example: "Essa diretoria errou."
+  COBRANCA:
+    description: "Exige acao ou resposta."
+    example: "Tem que contratar agora."
+  PROVOCACAO:
+    description: "Cutuca rival, jogador, clube ou grupo."
+    example: "O rival tremeu."
+  MEME_PIADA:
+    description: "Humor, meme ou brincadeira."
+    example: "Esse time ainda me mata."
+  PERGUNTA:
+    description: "Solicita informacao ou esclarecimento."
+    example: "Quando abre a venda?"
+  PEDIDO:
+    description: "Faz solicitacao direta."
+    example: "Renova com ele."
+  APOIO:
+    description: "Demonstra suporte."
+    example: "Vamos apoiar ate o fim."
+  INFORMACAO:
+    description: "Traz dado, noticia ou correcao."
+    example: "O jogo e no domingo."
+  OUTRO:
+    description: "Intencao nao enquadrada nas anteriores."
+    example: "Sem comentarios."

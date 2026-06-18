@@ -1,149 +1,176 @@
-# Queridometro de Torcidas
+# PLN Queridometro de Torcidas
 
-PoC academica de Processamento de Linguagem Natural para analisar mencoes no
-X/Twitter aos perfis oficiais de grandes clubes brasileiros.
+PoC academica de Processamento de Linguagem Natural para analisar reacoes de
+torcedores a publicacoes oficiais de clubes de futebol.
 
-O objetivo e construir uma base inicial de tweets recentes para estudar
-sentimento, engajamento, linguagem de torcida e relacoes de mencao entre clubes
-e usuarios, preservando cuidado etico no armazenamento dos dados.
-
-## Base Coletada
-
-A coleta principal usa a API oficial do X, endpoint de busca recente, pesquisando
-somente os arrobas oficiais dos clubes:
+O projeto comecou com uma base inicial de mencoes a perfis oficiais, mas o
+escopo atual foi refinado para uma pipeline contextual:
 
 ```text
-@SaoPauloFC
-@Corinthians
-@Palmeiras
-@Flamengo
-@VascodaGama
-@FluminenseFC
-@Botafogo
-@SantosFC
-@Atletico
-@Cruzeiro
+publicacao oficial do clube
+-> replies e quote tweets associados
+-> classificacao semantica das reacoes
 ```
 
-O resultado consolidado esta em:
+Nesta branch, o objetivo e preparar arquitetura, documentacao, taxonomia,
+schemas e placeholders. Nenhuma nova coleta da API do X/Twitter sera executada
+nesta etapa, nenhuma chamada a GPT ou outro LLM sera feita e nenhum modelo sera
+treinado.
+
+## Produto
+
+O produto esperado e uma base contextual que permita responder perguntas como:
+
+- quais tipos de publicacao oficial geram mais reacoes negativas ou positivas;
+- quais temas aparecem em replies e quote tweets;
+- quando a torcida elogia, critica, cobra, ironiza ou apoia;
+- como reacoes mudam entre posts de partida, escalacao, resultado, contratacao,
+  marketing, nota oficial e outros tipos.
+
+## Base Inicial de Mencoes
+
+A base inicial permanece preservada como historico do projeto:
 
 ```text
 data/raw/club_mentions_x_api.csv
-```
-
-Tambem foi mantido o primeiro teste bem-sucedido:
-
-```text
 data/raw/palmeiras_tweets.csv
 ```
 
-## Colunas Principais
+Ela foi criada por buscas a arrobas oficiais de clubes. Essa base e util para
+exploracao geral, mas nao e o centro da nova pipeline contextual.
 
-O CSV consolidado foi pensado para analises de texto, sentimento, engajamento e
-rede:
+## Nova Pipeline Contextual
 
-- `club_name`, `club_handle`: clube usado como alvo da busca.
-- `search_query`: consulta enviada para a API.
-- `tweet_id_hash`, `conversation_id_hash`, `author_id_hash`: identificadores anonimizados.
-- `created_at`, `lang`, `text`: data, idioma e texto do tweet.
-- `reference_type`, `referenced_tweet_id_hash`: relacao com outro tweet, quando existir.
-- `mentioned_club_handles`: clubes da PoC mencionados no texto.
-- `mentioned_user_hashes`: outros usuarios mencionados, anonimizados.
-- `retweet_count`, `reply_count`, `like_count`, `quote_count`, `bookmark_count`, `impression_count`: metricas publicas de engajamento.
-- `public_metrics_json`: metricas originais em JSON.
-- `source`, `collected_at`: origem e momento da coleta.
+A nova coleta futura sera focada em um clube piloto, ainda `A DEFINIR`, e deve
+seguir o plano documentado em:
 
-## Cuidados Eticos
+```text
+docs/pipeline_contextual.md
+docs/plano_coleta.md
+```
 
-O projeto nao salva IDs brutos de tweets, conversas ou autores. Esses campos sao
-convertidos para hashes estaveis, permitindo deduplicacao e analise de rede sem
-expor diretamente identificadores pessoais.
+Fluxo previsto:
 
-O arquivo `.env` nao deve ser versionado. Use `.env.example` como modelo e
-configure localmente o token da API:
+1. escolher clube piloto;
+2. coletar 10 a 15 publicacoes oficiais;
+3. coletar ate 30 replies por publicacao;
+4. coletar ate 10 quote tweets por publicacao;
+5. armazenar dados brutos;
+6. limpar textos;
+7. classificar o tipo da publicacao oficial;
+8. classificar semanticamente as reacoes;
+9. validar manualmente uma amostra;
+10. criar base anotada;
+11. treinar modelos classicos apenas em etapa futura;
+12. analisar resultados por tipo de publicacao.
+
+## Restricao de Custo
+
+A API do X/Twitter tem custo relevante. A proxima coleta deve ter teto de custo
+e registro obrigatorio em:
+
+```text
+data/metadata/collection_log.csv
+```
+
+Plano inicial:
+
+- clube piloto: `A DEFINIR`;
+- publicacoes oficiais: 10 a 15;
+- replies por publicacao: ate 30;
+- quotes por publicacao: ate 10;
+- retweets puros: apenas metrica agregada;
+- teto aproximado de novos registros: 500 a 700;
+- orcamento maximo adicional: R$ 25.
+
+Antes da coleta completa, deve ser feito um teste pequeno para validar endpoint,
+retorno, custo e formato dos dados.
+
+## Taxonomia
+
+A taxonomia de classificacao esta documentada em:
+
+```text
+docs/taxonomia_classificacao.md
+config/taxonomy.yaml
+```
+
+Ela cobre:
+
+- tipo de publicacao oficial;
+- relevancia da reacao;
+- tema;
+- emocao;
+- polaridade;
+- intencao comunicativa.
+
+## Estrutura do Repositorio
+
+```text
+config/
+  taxonomy.yaml
+data/
+  raw/
+    initial_mentions/
+    contextual_collection/
+  processed/
+  annotated/
+  metadata/
+    collection_log.csv
+docs/
+  proposta_trabalho.md
+  pipeline_contextual.md
+  dicionario_dados.md
+  taxonomia_classificacao.md
+  plano_coleta.md
+  spec_pipeline_contextual.md
+scripts/
+  prepare_contextual_structure.py
+  annotate_reactions.py
+  validate_annotations_sample.py
+  collect_x_club_mentions.py
+  poc_twitter_api_extractor.py
+src/
+  queridometro/
+    collectors/contextual_x_collector.py
+    annotation/llm_annotator.py
+    preprocessing/text_cleaning.py
+    modeling/classical_models.py
+    utils/schemas.py
+```
+
+## Instalacao
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+```
+
+Configure o token localmente apenas quando a etapa de coleta for autorizada:
 
 ```env
 X_BEARER_TOKEN=seu_token
 ```
 
-## Instalacao
+O arquivo `.env` nao deve ser versionado.
 
-Crie e ative o ambiente virtual:
+## O Que Nao Esta Implementado Nesta Etapa
 
-```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-```
+- coleta real da API do X/Twitter;
+- chamada real a GPT ou outro LLM;
+- treinamento de modelos;
+- notebooks finais;
+- dashboards.
 
-Instale as dependencias:
+## Proximos Passos
 
-```powershell
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
-```
-
-## Custos da API do X
-
-A API v2 do X usa cobranca por uso. Segundo a documentacao oficial, o consumo e
-acompanhado por app, os custos variam por endpoint/operacao e os valores atuais
-devem ser consultados no Developer Console antes de novas coletas:
-
-```text
-https://docs.x.com/x-api/fundamentals/post-cap
-https://console.x.com
-```
-
-Para esta PoC, a coleta completa faz 10 buscas recentes, uma por clube, pedindo
-ate 100 tweets por busca. Portanto, uma execucao completa tende a consumir cerca
-de 1.000 leituras de posts, menos quando a API retorna menos resultados. Na
-coleta salva neste repositorio foram retornados 973 tweets.
-
-Pontos importantes para controlar custo:
-
-- apenas respostas bem-sucedidas com dados retornados entram na cobranca;
-- posts repetidos no mesmo dia podem passar por deduplicacao diaria na cobranca;
-- a documentacao informa limite mensal de 2 milhoes de leituras de posts para
-  planos pay-per-usage;
-- configure limites de gasto e alertas no Developer Console;
-- evite rodar a coleta repetidas vezes sem necessidade.
-
-## Como Coletar Novamente
-
-Execute a coleta consolidada:
-
-```powershell
-python scripts/collect_x_club_mentions.py --tweets-per-club 100 --show-sample
-```
-
-O script salva o resultado em:
-
-```text
-data/raw/club_mentions_x_api.csv
-```
-
-Para rodar apenas o teste simples de uma busca:
-
-```powershell
-python first_test_poc.py --term Palmeiras --limit 5
-```
-
-## Analises Previstas
-
-- limpeza e normalizacao dos textos;
-- analise exploratoria por clube;
-- frequencia de termos, hashtags e mencoes;
-- sentimento por clube;
-- comparacao de engajamento;
-- rede de mencoes entre clubes e usuarios anonimizados;
-- rotulagem manual de amostras;
-- treinamento futuro de classificadores de sentimento.
-
-## Arquivos Centrais
-
-```text
-first_test_poc.py
-scripts/collect_x_club_mentions.py
-data/raw/palmeiras_tweets.csv
-data/raw/club_mentions_x_api.csv
-docs/proposta_trabalho.md
-```
+1. Definir o clube piloto.
+2. Confirmar endpoints e limites da API do X/Twitter.
+3. Estimar custo real de um teste pequeno.
+4. Executar coleta piloto reduzida.
+5. Revisar amostra e ajustar taxonomia.
+6. Implementar anotacao semantica com modelo pronto.
+7. Validar manualmente uma amostra.
+8. Preparar comparacao futura com modelos classicos.
