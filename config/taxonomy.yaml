@@ -42,6 +42,29 @@ post_types:
     description: "Conteudo que nao se encaixa nas categorias anteriores."
     example: "Mensagem geral aos torcedores."
 
+post_topics:
+  FUTEBOL_PROFISSIONAL_MASCULINO:
+    description: "Conteudo relacionado ao elenco profissional masculino."
+    example: "Treino do elenco principal."
+  CATEGORIA_BASE:
+    description: "Conteudo relacionado a categorias de base, como Sub-20 e Sub-17."
+    example: "Jogo do Sub-20 em Cotia."
+  FUTEBOL_FEMININO:
+    description: "Conteudo relacionado ao futebol feminino do clube."
+    example: "Treino do Futebol Feminino Tricolor."
+  PRODUTO_OFICIAL:
+    description: "Conteudo de produto oficial, camisa, loja ou venda direta."
+    example: "Nova camisa disponivel na loja oficial."
+  PARCERIA_COMERCIAL:
+    description: "Conteudo sobre patrocinadores, marcas parceiras ou ativacoes comerciais."
+    example: "Acao do clube com patrocinador."
+  INSTITUCIONAL:
+    description: "Conteudo sobre historia, memoria, valores ou comunicados institucionais."
+    example: "Aniversario do clube."
+  OUTRO:
+    description: "Assunto que nao se encaixa nas categorias anteriores."
+    example: "Mensagem geral aos torcedores."
+
 reaction_relevance:
   RELEVANTE:
     description: "Traz opiniao, avaliacao, emocao ou informacao sobre o contexto."
@@ -81,9 +104,21 @@ reaction_topics:
   PATROCINIO:
     description: "Reacao a patrocinadores."
     example: "Esse patrocinio ficou bom na camisa."
+  PARCERIA_COMERCIAL:
+    description: "Reacao a patrocinadores, marcas parceiras ou acoes comerciais."
+    example: "Essa parceria ficou boa para o clube."
   MARKETING:
     description: "Reacao a campanhas e comunicacao promocional."
     example: "Campanha criativa."
+  PRODUTO_OFICIAL:
+    description: "Comentario sobre camisa, loja ou produto oficial do clube."
+    example: "Essa camisa ficou cara."
+  CATEGORIA_BASE:
+    description: "Comentario sobre Sub-20, Sub-17, Cotia ou formacao de atletas."
+    example: "A base precisa ser melhor cuidada."
+  FUTEBOL_FEMININO:
+    description: "Comentario sobre o futebol feminino do clube."
+    example: "O feminino precisa de mais divulgacao."
   INGRESSOS:
     description: "Comentario sobre venda, preco ou acesso a ingressos."
     example: "Ingresso muito caro."

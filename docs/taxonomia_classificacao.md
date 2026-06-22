@@ -23,6 +23,21 @@ validacao manual.
 | `BASE` | Conteudo sobre categorias de base. | "Sub-20 entra em campo." |
 | `OUTRO` | Conteudo que nao se encaixa nas categorias anteriores. | "Mensagem geral aos torcedores." |
 
+## Assunto da Publicacao Oficial
+
+Este campo complementa o tipo da publicacao. O tipo descreve o formato
+comunicacional do post; o assunto descreve a editoria ou contexto principal.
+
+| Rotulo | Descricao | Exemplo |
+| --- | --- | --- |
+| `FUTEBOL_PROFISSIONAL_MASCULINO` | Conteudo relacionado ao elenco profissional masculino. | "Treino do elenco principal." |
+| `CATEGORIA_BASE` | Conteudo relacionado a categorias de base, como Sub-20 e Sub-17. | "Jogo do Sub-20 em Cotia." |
+| `FUTEBOL_FEMININO` | Conteudo relacionado ao futebol feminino do clube. | "Treino do Futebol Feminino Tricolor." |
+| `PRODUTO_OFICIAL` | Conteudo de produto oficial, camisa, loja ou venda direta. | "Nova camisa disponivel na loja oficial." |
+| `PARCERIA_COMERCIAL` | Conteudo sobre patrocinadores, marcas parceiras ou ativacoes comerciais. | "Acao do clube com patrocinador." |
+| `INSTITUCIONAL` | Conteudo sobre historia, memoria, valores ou comunicados institucionais. | "Aniversario do clube." |
+| `OUTRO` | Assunto que nao se encaixa nas categorias anteriores. | "Mensagem geral aos torcedores." |
+
 ## Relevancia da Reacao
 
 | Rotulo | Descricao | Exemplo |
@@ -44,7 +59,11 @@ validacao manual.
 | `TORCIDA` | Comentario sobre a propria torcida. | "A torcida carregou o time." |
 | `RIVALIDADE` | Provocacao ou comparacao com rivais. | "O rival nao aguenta." |
 | `PATROCINIO` | Reacao a patrocinadores. | "Esse patrocinio ficou bom na camisa." |
+| `PARCERIA_COMERCIAL` | Reacao a patrocinadores, marcas parceiras ou acoes comerciais. | "Essa parceria ficou boa para o clube." |
 | `MARKETING` | Reacao a campanhas e comunicacao promocional. | "Campanha criativa." |
+| `PRODUTO_OFICIAL` | Comentario sobre camisa, loja ou produto oficial do clube. | "Essa camisa ficou cara." |
+| `CATEGORIA_BASE` | Comentario sobre Sub-20, Sub-17, Cotia ou formacao de atletas. | "A base precisa ser melhor cuidada." |
+| `FUTEBOL_FEMININO` | Comentario sobre o futebol feminino do clube. | "O feminino precisa de mais divulgacao." |
 | `INGRESSOS` | Comentario sobre venda, preco ou acesso a ingressos. | "Ingresso muito caro." |
 | `SOCIO_TORCEDOR` | Comentario sobre planos e beneficios. | "O plano precisa melhorar." |
 | `COMUNICACAO_DO_CLUBE` | Avaliacao da forma como o clube comunicou algo. | "A nota foi confusa." |

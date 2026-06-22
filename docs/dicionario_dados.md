@@ -24,6 +24,8 @@ Publicacoes oficiais do clube piloto.
 | `collected_at` | datetime | Data e hora da coleta. |
 | `post_type_llm` | string | Tipo de post sugerido por modelo pronto. |
 | `post_type_manual` | string | Tipo de post validado ou corrigido manualmente. |
+| `post_topic_llm` | string | Assunto/editoria do post sugerido por regra ou modelo. |
+| `post_topic_manual` | string | Assunto/editoria do post validado ou corrigido manualmente. |
 
 ## `post_reactions.csv`
 
@@ -56,6 +58,8 @@ Base anotada para analise semantica e treinamento futuro.
 | `reaction_id` | string | Identificador da reacao anotada. |
 | `parent_post_id` | string | Publicacao oficial relacionada. |
 | `club` | string | Clube piloto associado. |
+| `official_post_type` | string | Tipo manual ou sugerido da publicacao oficial associada a reacao. |
+| `official_post_topic` | string | Assunto/editoria manual ou sugerido da publicacao oficial associada a reacao. |
 | `reaction_type` | string | `REPLY` ou `QUOTE`. |
 | `clean_text` | string | Texto limpo da reacao. |
 | `relevancia` | string | Nivel de relevancia da reacao. |

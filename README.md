@@ -12,10 +12,10 @@ publicacao oficial do clube
 -> classificacao semantica das reacoes
 ```
 
-Nesta branch, o objetivo e preparar arquitetura, documentacao, taxonomia,
-schemas e placeholders. Nenhuma nova coleta da API do X/Twitter sera executada
-nesta etapa, nenhuma chamada a GPT ou outro LLM sera feita e nenhum modelo sera
-treinado.
+Nesta branch, o projeto evoluiu da preparacao estrutural para um piloto
+contextual com o Sao Paulo. Ja existe uma base pequena coletada, uma amostra
+anotada manualmente, uma rodada de anotacao com DeepSeek e uma primeira analise
+comparativa.
 
 ## Produto
 
@@ -148,6 +148,7 @@ docs/
   dicionario_dados.md
   taxonomia_classificacao.md
   plano_coleta.md
+  resultados_piloto_sao_paulo.md
   spec_pipeline_contextual.md
 scripts/
   prepare_contextual_structure.py
@@ -180,17 +181,26 @@ Configure o token localmente apenas quando a etapa de coleta for autorizada:
 
 ```env
 X_BEARER_TOKEN=seu_token
+LLM_PROVIDER=deepseek
+DEEPSEEK_API_KEY=sua_chave_deepseek
+DEEPSEEK_MODEL=deepseek-v4-flash
+OPENAI_API_KEY=sua_chave_openai
+OPENAI_MODEL=gpt-5.5
 ```
 
 O arquivo `.env` nao deve ser versionado.
 
-## O Que Nao Esta Implementado Nesta Etapa
+## Estado Atual
 
-- coleta real da API do X/Twitter;
-- chamada real a GPT ou outro LLM;
-- treinamento de modelos;
-- notebooks finais;
-- dashboards.
+- piloto contextual do Sao Paulo coletado;
+- 10 posts oficiais e 60 reacoes brutas salvas;
+- 30 reacoes anotadas manualmente;
+- classificacao de tipo e assunto das publicacoes oficiais;
+- anotacao LLM com DeepSeek;
+- comparacao DeepSeek vs referencia manual;
+- relatorio contextual piloto gerado.
+
+Ainda nao ha treinamento de modelos classicos, notebooks finais ou dashboard.
 
 ## Anotacao Manual
 
@@ -226,11 +236,115 @@ Para validar os rotulos preenchidos:
 python scripts/validate_annotations_sample.py
 ```
 
+Para ler a amostra com mais conforto antes de preencher o CSV:
+
+```powershell
+python scripts/export_manual_annotation_review.py
+```
+
+Depois da validacao manual, a base anotada inicial pode ser gerada com:
+
+```powershell
+python scripts/build_annotated_reactions_dataset.py
+```
+
+Saidas:
+
+```text
+data/annotated/annotated_reactions_sao_paulo.csv
+data/annotated/annotation_summary_sao_paulo.md
+```
+
+Para preparar entradas offline para uma futura anotacao via LLM, sem chamar API:
+
+```powershell
+python scripts/prepare_llm_annotation_inputs.py
+```
+
+Saidas:
+
+```text
+data/llm_inputs/reaction_annotation_prompts.jsonl
+data/llm_inputs/manual_reference_labels.jsonl
+data/llm_inputs/reaction_annotation_prompt_template.md
+```
+
+Quando houver respostas do LLM em JSONL, salve em:
+
+```text
+data/llm_outputs/reaction_annotation_predictions.jsonl
+```
+
+Para gerar respostas com LLM, o provedor padrao do projeto e a DeepSeek, usando
+formato compativel com o SDK da OpenAI:
+
+```powershell
+python scripts/run_llm_annotation.py --limit 3 --dry-run
+python scripts/run_llm_annotation.py --limit 3
+```
+
+Tambem e possivel escolher explicitamente o provedor:
+
+```powershell
+python scripts/run_llm_annotation.py --provider deepseek --limit 3
+python scripts/run_llm_annotation.py --provider openai --limit 3
+```
+
+E compare com a referencia manual:
+
+```powershell
+python scripts/compare_llm_annotations.py
+```
+
+Saidas:
+
+```text
+data/llm_outputs/llm_annotation_comparison.csv
+data/llm_outputs/llm_annotation_comparison_summary.md
+```
+
+Rodada final recomendada da PoC:
+
+```powershell
+python scripts/run_llm_annotation.py --limit 30 --max-retries 2 --output data/llm_outputs/reaction_annotation_predictions_taxonomy_v3.jsonl
+python scripts/compare_llm_annotations.py --predictions data/llm_outputs/reaction_annotation_predictions_taxonomy_v3.jsonl --output data/llm_outputs/llm_annotation_comparison_taxonomy_v3.csv --summary data/llm_outputs/llm_annotation_comparison_summary_taxonomy_v3.md
+python scripts/analyze_contextual_results.py --predictions data/llm_outputs/reaction_annotation_predictions_taxonomy_v3.jsonl --comparison data/llm_outputs/llm_annotation_comparison_taxonomy_v3.csv --output data/processed/contextual_analysis_sao_paulo_taxonomy_v3.md --tables-dir data/processed/contextual_analysis_tables_v3
+```
+
+Resumo da rodada `taxonomy_v3`:
+
+```text
+relevancia: 24/30 (80.0%)
+tema: 14/30 (46.7%)
+emocao: 21/30 (70.0%)
+polaridade: 27/30 (90.0%)
+intencao: 18/30 (60.0%)
+```
+
+O documento principal dos resultados esta em:
+
+```text
+docs/resultados_piloto_sao_paulo.md
+```
+
+### Custo da Anotacao LLM
+
+Segundo a pagina oficial de precos da DeepSeek, o modelo `deepseek-v4-flash`
+cobra por tokens de entrada e saida. Em 22/06/2026, os valores publicados eram:
+
+- input cache miss: US$ 0.14 por 1M tokens;
+- output: US$ 0.28 por 1M tokens.
+
+Com a amostra atual de 30 reacoes, o custo esperado deve ficar bem abaixo de
+US$ 2, mesmo considerando prompts longos e respostas em JSON. Ainda assim, a
+execucao deve comecar com `--limit 3` para validar formato, custo e estabilidade
+antes de processar todos os registros.
+
 ## Proximos Passos
 
-1. Preencher manualmente a amostra `manual_annotation_sample_sao_paulo.csv`.
-2. Rodar `python scripts/validate_annotations_sample.py`.
-3. Revisar se a taxonomia precisa de ajustes.
-4. Implementar anotacao semantica com modelo pronto.
-5. Comparar rotulos do modelo com a amostra validada.
-6. Preparar comparacao futura com modelos classicos.
+1. Revisar divergencias entre DeepSeek e anotacao manual.
+2. Refinar criterios do campo `tema`.
+3. Expandir a coleta do Sao Paulo para mais posts oficiais.
+4. Repetir a pipeline em outros clubes.
+5. Preparar baseline com modelos classicos.
+6. Consolidar graficos e tabelas para o relatorio final.

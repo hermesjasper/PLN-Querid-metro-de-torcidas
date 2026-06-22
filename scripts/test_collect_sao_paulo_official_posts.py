@@ -73,6 +73,32 @@ def write_rows(rows: list[dict[str, object]], output: Path) -> None:
         writer.writerows(rows)
 
 
+def read_existing_rows(path: Path) -> list[dict[str, object]]:
+    if not path.exists():
+        return []
+    with path.open("r", newline="", encoding="utf-8-sig") as file:
+        return list(csv.DictReader(file))
+
+
+def merge_rows(
+    existing_rows: list[dict[str, object]],
+    new_rows: list[dict[str, object]],
+) -> list[dict[str, object]]:
+    merged_by_id: dict[str, dict[str, object]] = {}
+    for row in [*existing_rows, *new_rows]:
+        post_id = str(row.get("post_id", ""))
+        if not post_id:
+            continue
+        current = merged_by_id.get(post_id, {})
+        merged = {**current, **row}
+        if current.get("post_type_manual") and not row.get("post_type_manual"):
+            merged["post_type_manual"] = current["post_type_manual"]
+        if current.get("post_type_llm") and not row.get("post_type_llm"):
+            merged["post_type_llm"] = current["post_type_llm"]
+        merged_by_id[post_id] = merged
+    return list(merged_by_id.values())
+
+
 def main() -> None:
     args = parse_args()
     if args.limit < 1:
@@ -92,7 +118,9 @@ def main() -> None:
     )
 
     rows = fetch_official_posts(plan)
-    write_rows(rows, args.output)
+    existing_rows = read_existing_rows(args.output)
+    merged_rows = merge_rows(existing_rows, rows)
+    write_rows(merged_rows, args.output)
 
     now = datetime.now(UTC).isoformat(timespec="seconds")
     requested_limit = clamp_recent_search_limit(args.limit)
@@ -112,7 +140,9 @@ def main() -> None:
         log_path=args.log,
     )
 
-    print(f"Coletados: {len(rows)} posts oficiais")
+    print(f"Posts oficiais retornados pela API: {len(rows)}")
+    print(f"Posts oficiais ja existentes: {len(existing_rows)}")
+    print(f"Posts oficiais totais no CSV: {len(merged_rows)}")
     print(f"CSV salvo em: {args.output}")
     print(f"Log atualizado em: {args.log}")
 
