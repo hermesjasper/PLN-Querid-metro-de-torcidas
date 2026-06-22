@@ -146,6 +146,7 @@ A DeepSeek apresentou bom desempenho para polaridade e relevancia, mas mostrou m
 - a amostra expandida foi rotulada automaticamente e ainda precisa de revisao humana;
 - a coleta reflete uma janela recente especifica;
 - nao houve treinamento ou comparacao com modelos classicos nesta versao.
+- nao houve treinamento de modelo proprio; essa possibilidade depende de uma base manual maior e mais consistente.
 
 ## Conclusao
 
@@ -153,4 +154,4 @@ A PoC demonstra que e viavel construir uma pipeline contextual de baixo custo pa
 
 Ao mesmo tempo, os custos observados nao devem ser interpretados como custo final de uma versao completa. Uma aplicacao maior, cobrindo varios clubes, mais semanas ou meses de publicacoes, maior volume de replies e quotes, retentativas de coleta, validacao manual ampliada e novas rodadas de LLM, teria custo consideravelmente maior. Portanto, a principal contribuicao desta etapa e provar a viabilidade metodologica da abordagem e indicar como controlar custo, volume e qualidade dos dados antes de escalar.
 
-Para uma proxima etapa, a prioridade deve ser ampliar a validacao manual da amostra expandida, refinar os criterios do campo `tema` e planejar uma expansao gradual por clube ou por periodo, sempre com teto de custo definido previamente.
+Para uma proxima etapa, a prioridade deve ser ampliar a validacao manual da amostra expandida, refinar os criterios do campo `tema` e planejar uma expansao gradual por clube ou por periodo, sempre com teto de custo definido previamente. Em uma etapa mais avancada, tambem seria possivel treinar um modelo proprio para o dominio do futebol brasileiro, usando as anotacoes manuais como base supervisionada. Essa alternativa poderia reduzir dependencia de APIs externas no longo prazo e adaptar melhor o classificador ao vocabulario das torcidas, mas exigiria volume maior de dados rotulados, revisao humana mais robusta, experimentos de avaliacao e custo adicional de treinamento/manutencao.
