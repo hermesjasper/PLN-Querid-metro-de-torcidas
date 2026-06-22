@@ -149,4 +149,8 @@ A DeepSeek apresentou bom desempenho para polaridade e relevancia, mas mostrou m
 
 ## Conclusao
 
-A PoC demonstra que e viavel construir uma pipeline contextual de baixo custo para analisar reacoes de torcedores. O projeto ja possui coleta rastreavel, taxonomia, anotacao manual inicial, anotacao LLM, analise de divergencias e graficos exploratorios. Para uma proxima etapa, a prioridade deve ser ampliar a validacao manual da amostra expandida e refinar os criterios do campo `tema`.
+A PoC demonstra que e viavel construir uma pipeline contextual de baixo custo para analisar reacoes de torcedores, desde que o escopo seja controlado. Com um clube piloto, uma janela curta de coleta e uma amostra limitada, foi possivel montar uma base rastreavel, definir uma taxonomia, realizar anotacao manual inicial, aplicar anotacao automatica com DeepSeek, comparar resultados e gerar graficos exploratorios.
+
+Ao mesmo tempo, os custos observados nao devem ser interpretados como custo final de uma versao completa. Uma aplicacao maior, cobrindo varios clubes, mais semanas ou meses de publicacoes, maior volume de replies e quotes, retentativas de coleta, validacao manual ampliada e novas rodadas de LLM, teria custo consideravelmente maior. Portanto, a principal contribuicao desta etapa e provar a viabilidade metodologica da abordagem e indicar como controlar custo, volume e qualidade dos dados antes de escalar.
+
+Para uma proxima etapa, a prioridade deve ser ampliar a validacao manual da amostra expandida, refinar os criterios do campo `tema` e planejar uma expansao gradual por clube ou por periodo, sempre com teto de custo definido previamente.
