@@ -164,6 +164,11 @@ Resumo apos a expansao:
 - amostra expandida para anotacao: 150 reacoes;
 - rotulos automaticos DeepSeek na amostra expandida: 150.
 
+Custo observado na rodada expandida:
+
+- API do X/Twitter: US$ 0.0175 (1,75 centavos de dolar);
+- API da DeepSeek: US$ 0.01 (1 centavo de dolar).
+
 A amostra expandida foi balanceada entre tipos de reacao:
 
 - `QUOTE`: 75;
