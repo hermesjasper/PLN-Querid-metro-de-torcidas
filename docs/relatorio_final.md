@@ -133,6 +133,32 @@ A amostra expandida mostra predominancia de reacoes negativas, mas tambem inclui
 
 ![Polaridade por assunto do post oficial](../data/processed/final_report_figures/fig_05_polaridade_por_assunto.png)
 
+## Exemplo Qualitativo
+
+Para ilustrar a estrutura contextual da base, abaixo esta um exemplo de
+publicacao oficial e algumas reacoes associadas. Os autores das reacoes nao sao
+identificados no relatorio; o objetivo e mostrar como o texto do torcedor e
+analisado em relacao ao post que originou a conversa.
+
+Publicacao oficial:
+
+> O Sao Paulo Futebol Clube comunica o desligamento do executivo de futebol Rui
+> Costa, que estava no cargo desde 2021. O clube agradece ao profissional pelos
+> anos de dedicacao e deseja exitos na sequencia de sua carreira.
+
+Reacoes coletadas para essa publicacao:
+
+- "Oh Gloria!"
+- "Que maravilha! Ja vai tarde!"
+- "Ja tinha passado da hora"
+- "Aleluia melhor noticia da copa!"
+
+Esse exemplo mostra uma situacao em que a publicacao oficial tem tom
+institucional, mas as reacoes da torcida expressam avaliacao direta sobre a
+gestao do futebol. Em termos de classificacao, esse tipo de caso tende a gerar
+rotulos ligados a `DIRETORIA`, `CRITICA`, `COBRANCA`, `ALEGRIA` ou
+`FRUSTRACAO`, dependendo do texto especifico de cada reacao.
+
 ## Discussao
 
 Os resultados indicam que a abordagem contextual melhora a qualidade analitica em relacao a buscas soltas por mencoes. Ao associar cada reacao ao post oficial que a originou, torna-se possivel comparar como a torcida reage a formatos e assuntos diferentes.
