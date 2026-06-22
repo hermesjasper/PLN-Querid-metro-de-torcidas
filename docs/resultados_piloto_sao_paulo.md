@@ -118,6 +118,21 @@ A intencao teve desempenho intermediario. O modelo identifica bem criticas e
 cobrancas em muitos casos, mas ainda pode confundir ironia, piada e critica
 direta.
 
+## Analise de Divergencias
+
+Foi gerado um relatorio especifico para os casos em que a DeepSeek discordou da
+referencia manual:
+
+```text
+data/processed/llm_disagreement_analysis_taxonomy_v3.md
+data/processed/llm_disagreements_taxonomy_v3.csv
+```
+
+A maior concentracao de divergencias ocorreu em `tema`, reforcando que essa e a
+dimensao que mais precisa de criterios de desempate. O relatorio indica casos em
+que o modelo alternou entre `CATEGORIA_BASE`, `DESEMPENHO_EM_CAMPO`,
+`COMUNICACAO_DO_CLUBE`, `ELENCO` e `OUTRO`.
+
 ## Limitacoes
 
 - A amostra manual ainda e pequena, com 30 reacoes.

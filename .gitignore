@@ -58,6 +58,8 @@ data/llm_outputs/*
 !data/processed/.gitkeep
 !data/processed/contextual_analysis_sao_paulo.md
 !data/processed/contextual_analysis_sao_paulo_taxonomy_v3.md
+!data/processed/llm_disagreements_taxonomy_v3.csv
+!data/processed/llm_disagreement_analysis_taxonomy_v3.md
 !data/processed/contextual_analysis_tables/
 !data/processed/contextual_analysis_tables/*.csv
 !data/processed/contextual_analysis_tables_v3/
