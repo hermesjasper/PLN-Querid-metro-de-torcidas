@@ -63,6 +63,8 @@ data/llm_outputs/*
 !data/processed/contextual_analysis_sao_paulo_expanded.md
 !data/processed/expanded_llm_annotations_sao_paulo.csv
 !data/processed/expanded_llm_analysis_sao_paulo.md
+!data/processed/final_report_figures/
+!data/processed/final_report_figures/*.png
 !data/processed/expanded_llm_analysis_tables/
 !data/processed/expanded_llm_analysis_tables/*.csv
 !data/processed/contextual_analysis_tables_expanded/

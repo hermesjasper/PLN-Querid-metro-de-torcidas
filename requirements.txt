@@ -3,3 +3,4 @@ python-dotenv>=1.0.0
 requests>=2.31.0
 ntscraper>=0.4.0
 openai>=2.0.0
+matplotlib>=3.8.0
