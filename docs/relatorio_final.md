@@ -1,5 +1,11 @@
 # Relatorio Final - PLN Queridometro de Torcidas
 
+## Participantes
+
+- Gabriel Lagares
+- Hermes Winarski
+- Vitor Andrade
+
 ## Resumo
 
 Este trabalho apresenta uma PoC de Processamento de Linguagem Natural para analisar reacoes de torcedores a publicacoes oficiais de clubes de futebol. A versao final usa o Sao Paulo como clube piloto e adota uma pipeline contextual: publicacao oficial, replies e quote tweets associados, anotacao semantica e analise agregada.
