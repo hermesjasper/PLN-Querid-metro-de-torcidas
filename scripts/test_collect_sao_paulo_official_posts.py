@@ -65,6 +65,8 @@ def write_rows(rows: list[dict[str, object]], output: Path) -> None:
         "collected_at",
         "post_type_llm",
         "post_type_manual",
+        "post_topic_manual",
+        "post_topic_llm",
     ]
     output.parent.mkdir(parents=True, exist_ok=True)
     with output.open("w", newline="", encoding="utf-8-sig") as file:
@@ -95,6 +97,10 @@ def merge_rows(
             merged["post_type_manual"] = current["post_type_manual"]
         if current.get("post_type_llm") and not row.get("post_type_llm"):
             merged["post_type_llm"] = current["post_type_llm"]
+        if current.get("post_topic_manual") and not row.get("post_topic_manual"):
+            merged["post_topic_manual"] = current["post_topic_manual"]
+        if current.get("post_topic_llm") and not row.get("post_topic_llm"):
+            merged["post_topic_llm"] = current["post_topic_llm"]
         merged_by_id[post_id] = merged
     return list(merged_by_id.values())
 

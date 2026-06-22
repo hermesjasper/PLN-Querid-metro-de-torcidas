@@ -151,3 +151,40 @@ que o modelo alternou entre `CATEGORIA_BASE`, `DESEMPENHO_EM_CAMPO`,
 4. Repetir a pipeline para outros clubes.
 5. Criar uma base maior para testar modelos classicos como baseline.
 6. Produzir graficos e tabelas finais para o relatorio academico.
+
+## Expansao da Coleta
+
+Depois do piloto inicial, foi feita uma expansao controlada da base do Sao
+Paulo para aproximadamente 5 vezes o tamanho anterior.
+
+Resumo apos a expansao:
+
+- posts oficiais salvos: 53;
+- reacoes brutas salvas: 359;
+- amostra expandida para anotacao: 150 reacoes;
+- rotulos automaticos DeepSeek na amostra expandida: 150.
+
+A amostra expandida foi balanceada entre tipos de reacao:
+
+- `QUOTE`: 75;
+- `REPLY`: 75.
+
+Arquivos principais:
+
+```text
+data/annotated/manual_annotation_sample_sao_paulo_expanded.csv
+data/llm_inputs/reaction_annotation_prompts_expanded.jsonl
+data/llm_outputs/reaction_annotation_predictions_expanded.jsonl
+data/processed/expanded_llm_annotations_sao_paulo.csv
+data/processed/expanded_llm_analysis_sao_paulo.md
+```
+
+Distribuicao automatica de polaridade na amostra expandida:
+
+- `NEGATIVO`: 77;
+- `POSITIVO`: 39;
+- `NEUTRO`: 31;
+- `MISTO`: 3.
+
+Esta etapa ainda e exploratoria, pois os 150 novos rotulos foram gerados por
+LLM e ainda nao passaram por validacao manual completa.

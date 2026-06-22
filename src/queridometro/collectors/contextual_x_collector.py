@@ -214,6 +214,8 @@ def build_official_post_row(
         "collected_at": collected_at,
         "post_type_llm": "",
         "post_type_manual": "",
+        "post_topic_manual": "",
+        "post_topic_llm": "",
     }
 
 

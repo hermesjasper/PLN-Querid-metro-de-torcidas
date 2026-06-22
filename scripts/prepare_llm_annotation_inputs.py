@@ -86,6 +86,26 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--input", type=Path, default=DEFAULT_INPUT)
     parser.add_argument("--official-posts", type=Path, default=DEFAULT_OFFICIAL_POSTS)
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT_DIR)
+    parser.add_argument(
+        "--include-unvalidated",
+        action="store_true",
+        help="Inclui linhas ainda nao validadas manualmente.",
+    )
+    parser.add_argument(
+        "--prompts-file",
+        default="reaction_annotation_prompts.jsonl",
+        help="Nome do arquivo JSONL de prompts.",
+    )
+    parser.add_argument(
+        "--reference-file",
+        default="manual_reference_labels.jsonl",
+        help="Nome do arquivo JSONL de referencia manual.",
+    )
+    parser.add_argument(
+        "--template-file",
+        default="reaction_annotation_prompt_template.md",
+        help="Nome do arquivo Markdown com template do prompt.",
+    )
     return parser.parse_args()
 
 
@@ -256,19 +276,25 @@ def main() -> None:
     df = pd.read_csv(args.input, encoding="utf-8-sig").fillna("")
     official_posts = pd.read_csv(args.official_posts, encoding="utf-8-sig").fillna("")
     df = add_official_post_type(df, official_posts)
-    validated = df[df["validado_manual"].astype(str).str.upper() == "SIM"].copy()
+    if args.include_unvalidated:
+        selected_rows = df.copy()
+    else:
+        selected_rows = df[df["validado_manual"].astype(str).str.upper() == "SIM"].copy()
 
-    prompt_records = [build_prompt_record(row) for _, row in validated.iterrows()]
+    prompt_records = [build_prompt_record(row) for _, row in selected_rows.iterrows()]
     reference_records = [
-        build_manual_reference_record(row) for _, row in validated.iterrows()
+        build_manual_reference_record(row)
+        for _, row in selected_rows.iterrows()
+        if str(row.get("validado_manual", "")).upper() == "SIM"
     ]
 
     args.output_dir.mkdir(parents=True, exist_ok=True)
-    write_jsonl(prompt_records, args.output_dir / "reaction_annotation_prompts.jsonl")
-    write_jsonl(reference_records, args.output_dir / "manual_reference_labels.jsonl")
-    write_prompt_template(args.output_dir / "reaction_annotation_prompt_template.md")
+    write_jsonl(prompt_records, args.output_dir / args.prompts_file)
+    write_jsonl(reference_records, args.output_dir / args.reference_file)
+    write_prompt_template(args.output_dir / args.template_file)
 
     print(f"Prompts gerados: {len(prompt_records)}")
+    print(f"Referencias manuais geradas: {len(reference_records)}")
     print(f"Diretorio: {args.output_dir}")
 
 

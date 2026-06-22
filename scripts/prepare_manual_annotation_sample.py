@@ -56,6 +56,10 @@ def build_sample(
         [
             "post_id",
             "official_text",
+            "post_type_manual",
+            "post_type_llm",
+            "post_topic_manual",
+            "post_topic_llm",
             "created_at",
             "like_count",
             "reply_count",
@@ -65,13 +69,29 @@ def build_sample(
         columns={
             "post_id": "parent_post_id",
             "official_text": "official_text",
+            "post_type_manual": "official_post_type_manual",
+            "post_type_llm": "official_post_type_llm",
+            "post_topic_manual": "official_post_topic_manual",
+            "post_topic_llm": "official_post_topic_llm",
             "created_at": "official_created_at",
             "like_count": "official_like_count",
             "reply_count": "official_reply_count",
             "quote_count": "official_quote_count",
         }
     )
+    official_context["parent_post_id"] = official_context["parent_post_id"].astype(str)
+    official_context = official_context.fillna("")
+    reactions = reactions.copy()
+    reactions["parent_post_id"] = reactions["parent_post_id"].astype(str)
     merged = reactions.merge(official_context, on="parent_post_id", how="left")
+    merged["official_post_type"] = merged["official_post_type_manual"].where(
+        merged["official_post_type_manual"].astype(str).str.strip() != "",
+        merged["official_post_type_llm"],
+    )
+    merged["official_post_topic"] = merged["official_post_topic_manual"].where(
+        merged["official_post_topic_manual"].astype(str).str.strip() != "",
+        merged["official_post_topic_llm"],
+    )
     if len(merged) <= sample_size:
         sample = merged.copy()
     else:
@@ -107,6 +127,8 @@ def build_sample(
         "reaction_type",
         "clean_text",
         "official_text",
+        "official_post_type",
+        "official_post_topic",
         "official_created_at",
         "official_like_count",
         "official_reply_count",
